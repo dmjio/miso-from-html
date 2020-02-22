@@ -1,10 +1,7 @@
 {-# LANGUAGE DerivingStrategies         #-}
 {-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE TupleSections              #-}
 {-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE TypeSynonymInstances       #-}
 {-# LANGUAGE FlexibleContexts           #-}
-{-# Language StandaloneDeriving         #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 module Main where
 
@@ -91,7 +88,7 @@ tagWithAttrs = do
   _ <- char '<'
   t <- takeWhile1 (/=' ')
   _ <- char ' '
-  as <- attrs `sepBy` (char ' ')
+  as <- attrs `sepBy` char ' '
   skipSpace
   _ <- char '>'
   pure (t, as)
@@ -148,7 +145,7 @@ html = do
         pure cs
   dropFluff
   let hasStyle (Attr k _) = k == "style"
-  pure $ case listToMaybe (filter hasStyle as) of
+  pure $ case find hasStyle as of
     Just (Attr key (Just cssText)) -> do
       let parsedCss = T.pack $ show (parseCss cssText)
           newAttr = Attr key (Just parsedCss)

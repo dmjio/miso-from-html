@@ -3,6 +3,8 @@ miso-from-html
 
 Convert HTML into [miso](https://github.com/dmjio/miso) `View` syntax.
 
+[![asciicast](https://asciinema.org/a/MHZ5r4muWitBshkXhjtLHUBQQ.png)](https://asciinema.org/a/MHZ5r4muWitBshkXhjtLHUBQQ)
+
 ### Usage
 
 Given some HTML

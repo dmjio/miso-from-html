@@ -166,11 +166,20 @@ parseCss cssText = CSS cssMap
 isEmpty :: Text -> Bool
 isEmpty =
   flip elem
-  [ "img"
-  , "hr"
-  , "meta"
-  , "link"
+  [ "area"
+  , "base"
   , "br"
+  , "col"
+  , "embed"
+  , "hr"
+  , "img"
+  , "input"
+  , "link"
+  , "meta"
+  , "param"
+  , "source"
+  , "track"
+  , "wbr"
   ]
 
 closeTag :: Parser ()
@@ -243,5 +252,3 @@ removeComments = go Normal Nothing
          if [prev,c] == "->"
            then go Normal (Just c) next
            else go InComment (Just c) next
-
-

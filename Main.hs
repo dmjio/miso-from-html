@@ -67,6 +67,8 @@ instance Show Attr where
     , T.unpack v
     , "\""
     ]
+  show (Attr "checked" Nothing) =
+    "checked_ True"
   show (Attr k Nothing) =
     mconcat
     [ "textProp \""

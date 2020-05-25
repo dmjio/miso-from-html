@@ -59,14 +59,24 @@ instance Show Attr where
     [ "style_ $ "
     , T.unpack v
     ]
-  show (Attr k (Just v)) =
-    mconcat
-    [ T.unpack k
-    , "_ "
-    , "\""
-    , T.unpack v
-    , "\""
-    ]
+  show (Attr k (Just v))
+    | T.any (=='-') k =
+      mconcat
+      [ "textProp \""
+      , T.unpack k
+      , "\""
+      , " \""
+      , T.unpack v
+      , "\""
+      ]
+    | otherwise =
+      mconcat
+      [ T.unpack k
+      , "_ "
+      , "\""
+      , T.unpack v
+      , "\""
+      ]
   show (Attr "checked" Nothing) =
     "checked_ True"
   show (Attr k Nothing) =

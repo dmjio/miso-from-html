@@ -102,7 +102,7 @@ tagWithAttrs = do
   _ <- char ' '
   as <- attrs `sepBy` char ' '
   skipSpace
-  _ <- char '>'
+  _ <- char '/' <|> char '>'
   pure (t, as)
 
 attrs :: Parser Attr
@@ -203,7 +203,7 @@ closeTag = do
 
 main :: IO ()
 main = do
-  file <- removeComments <$> T.getContents
+  file <- stripDoctype . removeComments <$> T.getContents
   case parseOnly html file of
     Right r ->
       pPrint r
@@ -216,6 +216,13 @@ data Mode
   = InComment
   | Normal
   deriving (Show, Eq)
+
+stripDoctype :: Text -> Text
+stripDoctype t = do
+  let firstLine = T.takeWhile (/='\n') t
+  if "<!doctype html>" `T.isPrefixOf` (T.toLower firstLine)
+    then T.drop 1 (T.dropWhile (/='\n') t)
+    else t
 
 -- | Remove HTML comments using a layered lexer
 --
